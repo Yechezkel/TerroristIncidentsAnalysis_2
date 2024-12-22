@@ -10,6 +10,8 @@ app.register_blueprint(get_info_bp, url_prefix='/get_info')
 def index():
     routes = [
         '/get_info/top_5_most_harmful_terror_organizations',
+        '/get_info/most_deadly_attack_types',
+        '/get_info/most_deadly_attack_types/8',
     ]
     return render_template_string('''
         <html>
