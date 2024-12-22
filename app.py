@@ -11,7 +11,7 @@ def index():
     routes = [
         '/get_info/top_5_most_harmful_terror_organizations',
         '/get_info/most_deadly_attack_types',
-        '/get_info/most_deadly_attack_types/8',
+        '/get_info/most_deadly_attack_types/4',
     ]
     return render_template_string('''
         <html>

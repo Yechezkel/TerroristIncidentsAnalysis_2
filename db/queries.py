@@ -53,19 +53,15 @@ def get_top_5_most_harmful_terror_organization_pure():
 
 
 
-
-
-
-def get_most_deadly_attack_types(limit=5):
+def get_most_deadly_attack_types(limit=None):
     session = session_factory()
     injuries_case = case((Event.injuries_num != -99, Event.injuries_num), else_=0)
     fatalities_case = case((Event.fatalities_num != -99, Event.fatalities_num), else_=0)
     deadly_score = func.sum(injuries_case + (2*fatalities_case)).label("deadly_score")
     try:
-        query = (
-            session.query(AttackType.id, AttackType.name, deadly_score).join(Event).where(AttackType.name!="Unknown")
-            .group_by(AttackType.id).order_by(desc(deadly_score)).limit(limit)
-        )
+        query = session.query(AttackType.id, AttackType.name, deadly_score).join(Event).where(AttackType.name!="Unknown").group_by(AttackType.id).order_by(desc(deadly_score))
+        if limit:
+            query = query.limit(limit)
         column_keys = ['id', 'name', 'deadly_score']
         return [dict(zip(column_keys, row)) for row in query.all()]
     except Exception as e:
